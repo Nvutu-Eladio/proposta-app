@@ -25,7 +25,7 @@ public class PropostaResponseDto {
 
     private Double renda;
 
-    private Double valorSolicitado;
+    private String valorSolicitadoFmt;
 
     private int prazoPagamento;
 
