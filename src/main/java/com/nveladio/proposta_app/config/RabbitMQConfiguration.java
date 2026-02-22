@@ -1,5 +1,9 @@
 package com.nveladio.proposta_app.config;
 
+import org.springframework.amqp.core.Binding;
+import org.springframework.amqp.core.BindingBuilder;
+import org.springframework.amqp.core.ExchangeBuilder;
+import org.springframework.amqp.core.FanoutExchange;
 import org.springframework.amqp.core.Queue;
 import org.springframework.amqp.core.QueueBuilder;
 import org.springframework.amqp.rabbit.connection.ConnectionFactory;
@@ -40,6 +44,23 @@ public class RabbitMQConfiguration {
     @Bean
     public ApplicationListener<ApplicationReadyEvent> inicializarAdmin(RabbitAdmin rabbitAdmin) {
         return event -> rabbitAdmin.initialize();
+    }
+
+    @Bean
+    public FanoutExchange criarFanoutExchangePropostaPendente() {
+        return ExchangeBuilder.fanoutExchange("proposta-pendente.ex").build();
+    }
+
+    @Bean
+    public Binding criarBindingPropostaPendenteMSAnaliseCredito() {
+        return BindingBuilder.bind(criarFilaPropostaPendenteMsAnaliseCredito())
+                .to(criarFanoutExchangePropostaPendente());
+    }
+
+    @Bean
+    public Binding criarBindingPropostaPendenteMSNotificacao() {
+        return BindingBuilder.bind(criarFilaPropostaPendenteMsNotificacao())
+                .to(criarFanoutExchangePropostaPendente());
     }
 
 }
