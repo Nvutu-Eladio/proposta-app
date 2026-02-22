@@ -8,6 +8,8 @@ import com.nveladio.proposta_app.repository.PropostaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class PropostaService {
 
@@ -22,4 +24,7 @@ public class PropostaService {
         return PropostaMapper.INSTANCE.convertEntityToDto(proposta);
     }
 
+    public List<PropostaResponseDto> obterProposta() {
+        return PropostaMapper.INSTANCE.convertListEntityToListDto(propostaRepository.findAll());
+    }
 }
