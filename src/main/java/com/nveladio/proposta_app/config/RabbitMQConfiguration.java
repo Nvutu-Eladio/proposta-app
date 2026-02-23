@@ -9,8 +9,8 @@ import org.springframework.amqp.core.QueueBuilder;
 import org.springframework.amqp.rabbit.connection.ConnectionFactory;
 import org.springframework.amqp.rabbit.core.RabbitAdmin;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
-import org.springframework.amqp.support.converter.Jackson2JsonMessageConverter;
 import org.springframework.amqp.support.converter.JacksonJsonMessageConverter;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.annotation.Bean;
@@ -19,24 +19,39 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class RabbitMQConfiguration {
 
+    @Value("${rabbitmq.propostapendente.exchange}")
+    private String exchange;
+
+    @Value("${rabbitmq.propostapendente.ms-analise-credito}")
+    private String filaPropostaPendenteMsAnaliseCredito;
+
+    @Value("${rabbitmq.propostapendente.ms-notificacao}")
+    private String filaPropostaPendenteMsNotificacao;
+
+    @Value("${rabbitmq.propostaconcluida.ms-proposta}")
+    private String filaPropostaConcluidaMsProposta;
+
+    @Value("${rabbitmq.propostaconcluida.ms-notificacao}")
+    private String filaPropostaConcluidaMsNotificacao;
+
     @Bean
     public Queue criarFilaPropostaPendenteMsAnaliseCredito() {
-        return QueueBuilder.durable("proposta-pendente.ms-analise-credito").build();
+        return QueueBuilder.durable(filaPropostaPendenteMsAnaliseCredito).build();
     }
 
     @Bean
     public Queue criarFilaPropostaPendenteMsNotificacao() {
-        return QueueBuilder.durable("proposta-pendente.ms-notificacao").build();
+        return QueueBuilder.durable(filaPropostaPendenteMsNotificacao).build();
     }
 
     @Bean
     public Queue criarFilaPropostaConcluidaMsProposta() {
-        return QueueBuilder.durable("proposta-concluida.ms-proposta").build();
+        return QueueBuilder.durable(filaPropostaConcluidaMsProposta).build();
     }
 
     @Bean
     public Queue criarFilaPropostaConcluidaMsNotificacao() {
-        return QueueBuilder.durable("proposta-concluida.ms-notificacao").build();
+        return QueueBuilder.durable(filaPropostaConcluidaMsNotificacao).build();
     }
 
     @Bean
@@ -51,7 +66,7 @@ public class RabbitMQConfiguration {
 
     @Bean
     public FanoutExchange criarFanoutExchangePropostaPendente() {
-        return ExchangeBuilder.fanoutExchange("proposta-pendente.ex").build();
+        return ExchangeBuilder.fanoutExchange(exchange).build();
     }
 
     @Bean
