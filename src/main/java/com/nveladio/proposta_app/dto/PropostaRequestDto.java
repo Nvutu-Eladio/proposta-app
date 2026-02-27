@@ -25,4 +25,6 @@ public class PropostaRequestDto {
 
     private int prazoPagamento;
 
+    private Boolean integrada;
+
 }

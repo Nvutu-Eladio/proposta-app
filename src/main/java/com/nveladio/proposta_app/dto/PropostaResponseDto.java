@@ -33,4 +33,6 @@ public class PropostaResponseDto {
 
     private String observacao;
 
+    private Boolean integrada;
+
 }

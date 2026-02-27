@@ -1,5 +1,6 @@
 package com.nveladio.proposta_app.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -36,6 +37,7 @@ public class Usuario {
     private String renda;
 
     @OneToOne(mappedBy = "usuario")
+    @JsonBackReference
     private Proposta proposta;
 
 

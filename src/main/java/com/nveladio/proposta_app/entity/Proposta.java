@@ -1,5 +1,6 @@
 package com.nveladio.proposta_app.entity;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -35,8 +36,11 @@ public class Proposta {
 
     private String observacao;
 
+    private Boolean integrada;
+
     @OneToOne(cascade = CascadeType.PERSIST)
     @JoinColumn(name = "usuario_id")
+    @JsonManagedReference
     private Usuario usuario;
 
 }
