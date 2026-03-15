@@ -30,6 +30,7 @@ public class PropostaSemIntegracao {
         propostaRepository.findAllByIntegradaIsFalse().forEach(proposta -> {
             PropostaResponseDto propostaResponseDto = PropostaMapper.INSTANCE.convertEntityToDto(proposta);
             try {
+                propostaResponseDto.setIntegrada(true);
                 notificacaoRabbitService.notificar(propostaResponseDto, exchange);
                 atualizarProposta(propostaResponseDto);
             } catch (RuntimeException ex) {
@@ -41,7 +42,7 @@ public class PropostaSemIntegracao {
 
     private void atualizarProposta(PropostaResponseDto propostaResponseDto) {
         propostaRepository.findById(propostaResponseDto.getId()).ifPresent(proposta -> {
-            proposta.setIntegrada(propostaResponseDto.getIntegrada());
+            proposta.setIntegrada(true);
             propostaRepository.save(proposta);
         });
     }

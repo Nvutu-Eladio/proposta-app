@@ -38,6 +38,7 @@ public class PropostaService {
 
     private void notificarRabbitMQ(PropostaResponseDto propostaResponseDto) {
         try {
+            propostaResponseDto.setIntegrada(true);
             notificacaoRabbitService.notificar(propostaResponseDto, exchange);
         } catch (RuntimeException ex) {
             log.error("Erro ao enviar mensagem para RabbitMQ: {}", ex.getMessage());
@@ -46,7 +47,6 @@ public class PropostaService {
             propostaRepository.save(proposta);
         }
     }
-
 
 
     public List<PropostaResponseDto> obterProposta() {
