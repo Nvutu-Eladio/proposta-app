@@ -28,6 +28,7 @@ public class PropostaService {
     public PropostaResponseDto criar(PropostaRequestDto requestDto) {
         Proposta proposta = PropostaMapper.INSTANCE.convertDtoToProposta(requestDto);
 
+        proposta.setIntegrada(true);
         propostaRepository.save(proposta);
 
         PropostaResponseDto response = PropostaMapper.INSTANCE.convertEntityToDto(proposta);
